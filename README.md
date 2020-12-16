@@ -16,7 +16,7 @@ AdminタブからInstall
 
 ## 利用イメージ
 
-### Get Last Message
+### 1. Get Last Message
 
 * `Credentials`と`Token`を取得してJSON文字列で指定します。
 * Qにはメールの検索クエリを記載します。
@@ -26,6 +26,20 @@ AdminタブからInstall
 トリガーはインジェクトノードなどと組み合わせて下さい。
 
 > ![](https://i.gyazo.com/0fbd32904452f18885d2948b1e19297f.png)
+
+#### 利用例
+
+* Gmailに届いたメール内容をLINE Notifyへ転送
+
+> ![](https://i.gyazo.com/5cea286f1868edf7a50b7fe257573771.png)
+
+* Gmailに届いたメール内容をTwitterへ転送
+
+> ![](https://i.gyazo.com/582b31a59dfa89b9a89e2c0185b719eb.png)
+
+### 2. Get List (WIP)
+
+coming soon...
 
 ## LINK
 
