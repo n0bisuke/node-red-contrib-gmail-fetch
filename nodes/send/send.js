@@ -1,54 +1,30 @@
 module.exports = (RED) => {
     'use strict';
 
-    const {google} = require('googleapis');
+    const authorize = require('../libs/authorize');
+    const makeBody = require('./makeBody');
+    const sendMessage = require('./func');
     
     const main = function(config){
         const node = this;
         RED.nodes.createNode(node, config);
 
-        console.log(config);
+        node.on('input', async msg => {  
+            const messageBody = msg.payload;
 
-        //認証関数
-        const authorize = () => {
-            const credentials = JSON.parse(config.Credentials);
-            const {client_secret, client_id, redirect_uris} = credentials.installed;
-            const oAuth2Client = new google.auth.OAuth2(
-                client_id,
-                client_secret,
-                redirect_uris[0]
-            );
-            oAuth2Client.setCredentials(JSON.parse(config.AccessToken));
-
-            return oAuth2Client;
-        }
-
-        //最新を取得
-        const getLastMessage = async (auth, q) => {
-            const gmail = google.gmail({version: 'v1', auth});
-        
-            const resList = await gmail.users.messages.list({userId: 'me', q: q});
-            const lastMessage = resList.data.messages[0];
-          
-            const resMes = await gmail.users.messages.get({
-              userId: 'me',
-              id: lastMessage.id,
-              format: 'FULL'
-            });
-          
-            const buf = new Buffer.from(resMes.data.payload.body.data, 'base64');
-            const str = buf.toString();
-        
-            return str;
-        }
-
-        node.on('input', async (msg) => {
-            const mes = msg.payload;
-            
             try {
-                const auth = authorize();
-                const mailMsg = await getLastMessage(auth, config.Q);
-                msg.payload = mailMsg;
+                const auth = authorize(node.credentials.Credentials, node.credentials.AccessToken);
+
+                const params = {
+                    to: config.to,
+                    from: config.from,
+                    subject: config.subject,
+                    message: messageBody || config.message
+                };
+            
+                const raw = makeBody(params);
+                const msg = await sendMessage(auth, raw);
+                msg.payload = msg;
                 node.send(msg);
 
             } catch (error) {
@@ -58,5 +34,11 @@ module.exports = (RED) => {
         });
     }
 
-    RED.nodes.registerType('GetLastMessage', main);
+    // RED.nodes.registerType('Send', main);
+    RED.nodes.registerType('Send', main, {
+        credentials: {
+            Credentials: {type:"password"},
+            AccessToken: {type:"password"},
+        },
+    });
 }

@@ -14,7 +14,8 @@
   },
   "node-red": {
     "nodes": {
-      "GetLastMessage": "./nodes/getLastMessage/getLastMessage.js"
+      "GetLastMessage": "./nodes/getLastMessage/getLastMessage.js",
+      "Send": "./nodes/send/send.js"
     }
   },
   "keywords": [
