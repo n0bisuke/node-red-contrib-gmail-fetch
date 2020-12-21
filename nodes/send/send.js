@@ -34,7 +34,6 @@ module.exports = (RED) => {
         });
     }
 
-    // RED.nodes.registerType('Send', main);
     RED.nodes.registerType('Send', main, {
         credentials: {
             Credentials: {type:"password"},

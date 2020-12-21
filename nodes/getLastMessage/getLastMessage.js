@@ -9,10 +9,12 @@ module.exports = (RED) => {
         RED.nodes.createNode(node, config);
 
         // console.log(config);
-        console.log('new!!!!');
+        // console.log('new!!!!');
         node.on('input', async (msg) => {
             try {
-                const auth = authorize(config.Credentials, config.AccessToken);
+                const auth = authorize(node.credentials.Credentials, node.credentials.AccessToken);
+                console.log(`////`)
+                console.log(config.Q);
                 const mailMsg = await getLastMessage(auth, config.Q);
                 msg.payload = mailMsg;
                 node.send(msg);
@@ -22,5 +24,10 @@ module.exports = (RED) => {
         });
     }
 
-    RED.nodes.registerType('GetLastMessage', main);
+    RED.nodes.registerType('GetLastMessage', main, {
+        credentials: {
+            Credentials: {type:"password"},
+            AccessToken: {type:"password"},
+        },
+    });
 }

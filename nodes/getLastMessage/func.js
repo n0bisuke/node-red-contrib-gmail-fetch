@@ -13,16 +13,27 @@ module.exports = async (auth, q) => {
     });
 
     const lastMessage = resList.data.messages[0];
-      
+    
     const resMes = await gmail.users.messages.get({
         userId: 'me',
         id: lastMessage.id,
         format: 'FULL'
     });
       
-    const buf = new Buffer.from(resMes.data.payload.body.data, 'base64');
+    // console.log(resMes.data);
+    let mailData = '';
+    if(resMes.data.payload.body.size !== 0){
+        mailData = resMes.data.payload.body.data;
+    }else{
+        const parts = resMes.data.payload.parts;
+        for (let i = 0, len=parts.length; i < len; i++) {
+            if(parts[i].body.size === 0) continue;
+            const chunk = parts[i].body.data;
+            mailData += chunk;
+        }
+    }
+    const buf = new Buffer.from(mailData, 'base64');
     const str = buf.toString();
-    
     return str;
 }
 //     'use strict';

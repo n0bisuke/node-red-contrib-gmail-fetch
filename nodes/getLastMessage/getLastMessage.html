@@ -4,9 +4,11 @@
         color: '#E34C41',
         defaults: {
             name: {value:""},
-            Credentials:{value:"", required:true},
-            AccessToken:{value:"", required:true},
             Q:{value:"", required:false},
+        },
+        credentials: {
+            Credentials:{value:"", type: "password", required:true},
+            AccessToken:{value:"", type: "password", required:true}
         },
         inputs: 1,
         outputs: 1,
