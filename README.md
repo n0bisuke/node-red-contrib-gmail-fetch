@@ -37,7 +37,14 @@ AdminタブからInstall
 
 > ![](https://i.gyazo.com/582b31a59dfa89b9a89e2c0185b719eb.png)
 
-### 2. Get List (WIP)
+
+### 2. Send
+
+メール送信も出来ます。
+
+![](https://i.gyazo.com/2b2277ed36e2e66fd55da43f67465ae9.png)
+
+### 3. Get List (WIP)
 
 coming soon...
 
