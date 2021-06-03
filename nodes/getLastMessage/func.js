@@ -3,7 +3,7 @@
 const {google} = require('googleapis');
 
 //最新を取得
-module.exports = async (auth, q) => {
+const main = async (auth, q) => {
 
     const gmail = google.gmail({version: 'v1', auth});
     
@@ -24,7 +24,9 @@ module.exports = async (auth, q) => {
     let mailData = '';
     if(resMes.data.payload.body.size !== 0){
         mailData = resMes.data.payload.body.data;
-    }else{
+    }
+    
+    else{
         const parts = resMes.data.payload.parts;
         for (let i = 0, len=parts.length; i < len; i++) {
             if(parts[i].body.size === 0) continue;
@@ -36,6 +38,9 @@ module.exports = async (auth, q) => {
     const str = buf.toString();
     return str;
 }
+
+module.exports = main;
+
 //     'use strict';
 
 //         const getLastMessage = async (auth, q) => {
